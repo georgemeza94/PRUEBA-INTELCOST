@@ -17,7 +17,7 @@ Respecto a los requerimientos específicos:
 2. Versión de PHP: 7.4.13
 
 -----------------------------
-Para poder usar la aplicacion
+# Para poder usar la aplicacion
 
 1. Para iniciar la aplicaion debe ingresar al archivo backend/config y cambiar las credeciales del servidor
 2. Una vez cargado el proyecto en su servidor ingresamos al link bienes.test/backend/instalar.php para crear la db, 
