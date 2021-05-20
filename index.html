@@ -110,6 +110,275 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
     <script type="text/javascript" src="js/js_proyecto.js"></script>
 
+    <script type="text/javascript">
+      
+      
+$( document ).ready(function() {
 
+    $( "#tabs" ).tabs();
+
+    //Espera por el click en el boton disponibles para recargar el listado y hacerlo de forma asincrona 
+    $("#disponibles").click(function(){
+      limpiar();
+    });
+
+    //Espera por el click en el boton disponibles para recargar el listado y hacerlo de forma asincrona 
+    $("#bienes_user").click(function(){
+      bienes_user();
+    });
+
+    $(".limpiar").click(function(){
+      limpiar();
+    });
+
+});
+
+/**en esta funcion a traves de ajax hacemos la consulta al la funcion listar.php 
+posterior a ello con jquery creamos un elemento con la informacion de los inmuebles 
+por cada uno de los bienes devueltos en la consulta**/
+function limpiar(){
+  $.ajax({
+        type: 'GET',
+        dataType: "json",
+        url: 'backend/listar.php',
+        success:function(data) {
+
+            var inmuebles = '<div class="tituloContenido card" style="justify-content: center;">          <h5 id="resultadosTotales">Resultados de la búsqueda:'+data.length+'</h5></div>';
+
+            for (var i=0; i<data.length;i++){
+              
+              inmuebles += '<div class="tituloContenido card" style=  "justify-content: center;"><div class="itemMostrado card" ><img  class="itemMostrado" src="img/home.jpg"><div class="card-stacked"><p><b>Direccion:</b>'+data[i].Direccion+'<br></p><p><b>Ciudad:</b>'+data[i].Ciudad+'<br></p><p><b>Telefono:</b>'+data[i].Telefono+'<br></p><p><b>Codigo postal:</b>'+data[i].Codigo_Postal+'<br></p><p><b>Tipo:</b>'+data[i].Tipo+'<br></p><p><b>Precio:</b>'+data[i].Precio+'<br></p></div></div><div class="botonField"><input type="submit" class="btn white limpiar" value="Añadir" id="submitButton"  onclick="anadir('+data[i].Id+')"></div></div>';
+            
+            }
+
+            $("#tabs-1").html(inmuebles);
+        },
+        error:function(data){
+            alert("error occured"); //===Show Error Message====
+        }
+    });
+}
+
+/**en esta funcion a traves de ajax hacemos la consulta al la funcion bienes_user.php 
+posterior a ello con jquery creamos un elemento con la informacion de los inmuebles 
+por cada uno de los bienes devueltos en la consulta **/
+function bienes_user(){
+  $.ajax({
+        type: 'GET',
+        dataType: "json",
+        url: 'backend/bienes_user.php',
+        success:function(data) {
+
+            var inmuebles = '<div class="tituloContenido card" style="justify-content: center;">          <h5 id="resultadosTotales">Bienes guardados:'+data.length+'</h5></div>';
+
+            for (var i=0; i<data.length;i++){
+              
+              inmuebles += '<div class="tituloContenido card" style=  "justify-content: center;"><div class="itemMostrado card" ><img  class="itemMostrado" src="img/home.jpg"><div class="card-stacked"><p><b>Direccion:</b>'+data[i].Direccion+'<br></p><p><b>Ciudad:</b>'+data[i].Ciudad+'<br></p><p><b>Telefono:</b>'+data[i].Telefono+'<br></p><p><b>Codigo postal:</b>'+data[i].Codigo_Postal+'<br></p><p><b>Tipo:</b>'+data[i].Tipo+'<br></p><p><b>Precio:</b>'+data[i].Precio+'<br></p></div></div><div class="botonField"><input type="submit" class="btn white limpiar" value="Eliminar" id="submitButton"  onclick="eliminar('+data[i].Id+')"></div></div>';
+            
+            }
+
+            $("#tabs-2").html(inmuebles);
+        },
+        error:function(data){
+            alert("error occured"); //===Show Error Message====
+        }
+    });
+}
+
+/**en esta funcion esta disponible en el boton añadir en la ventana de inmuebles disponibles
+lo que hace llamar la funcion añadir.php y porterior a ello llamara la funcion limpiar que trae y muestra los 
+inmuebles disponibles **/
+function anadir(id){
+
+  $.ajax({
+        type: 'POST',
+        dataType: "text",
+        url: 'backend/anadir.php',
+        data: ({Id: id}),
+        success:function(data) {
+
+            alert('Inmueble añadido');
+            limpiar();
+        },
+        error:function(data){
+            alert("error occured"); //===Show Error Message====
+        }
+    });
+
+}
+
+/**en esta funcion esta disponible en el boton eliminar en la ventana de mis bienes 
+lo que hace llamar la funcion eliminar.php y posterior a ello llamara la funcion bienes_user que trae y muestra los 
+inmuebles del usuarios **/
+function eliminar(id){
+  $.ajax({
+        type: 'POST',
+        dataType: "text",
+        url: 'backend/eliminar.php',
+        data: ({Id: id}),
+        success:function(data) {
+
+            alert('Inmueble Eliminado');
+            bienes_user();
+        },
+        error:function(data){
+            alert("error occured"); //===Show Error Message====
+        }
+    });
+
+}
+
+/**esta funcion hace el llamado a ciudades.php quien devuelve un listado de las ciudades 
+encontradas en la db, porterior a ello con jquery se crear un elementos option por cada 
+una de las ciudades halladas y finalmente se añaden a los select de los filtros y de 
+la ventana exportar**/
+
+function ciudades(){
+  $.ajax({
+        type: 'GET',
+        dataType: "json",
+        url: 'backend/ciudades.php',
+        success:function(data) {
+
+            var ciudades = '<option value="" selected>Elige una ciudad</option>';
+
+            for (var i=0; i<data.length;i++){
+              
+              ciudades += '<option value="'+data[i].Ciudad+'">'+data[i].Ciudad+'</option>';
+            
+            }
+
+            $("#selectCiudad").html(ciudades);
+            $("#selectCiudad2").html(ciudades);
+        },
+        error:function(data){
+            alert("error occured"); //===Show Error Message====
+        }
+    });
+}
+
+/**esta funcion hace el llamado a tipos.php quien devuelve un listado de los tipos 
+encontrados en la db, porterior a ello con jquery se crear un elementos option por cada 
+uno de los tipos hallados y finalmente se añaden a los select de los filtros y de 
+la ventana exportar**/
+function tipos(){
+  $.ajax({
+        type: 'GET',
+        dataType: "json",
+        url: 'backend/tipos.php',
+        success:function(data) {
+
+            var tipos = '<option value="" selected>Elige un tipo</option>';
+
+            for (var i=0; i<data.length;i++){
+              
+              tipos += '<option value="'+data[i].Tipo+'">'+data[i].Tipo+'</option>';
+            
+            }
+
+            $("#selectTipo").html(tipos);
+            $("#selectTipo2").html(tipos);
+        },
+        error:function(data){
+            alert("error occured"); //===Show Error Message====
+        }
+    });
+}
+
+/**Se encarga de llamar a la funcion buscar.php la cual busca los inmuebles disponibles, 
+con la informacion devuelta se encarga de crear cada uno de los elementos hallados teniendo en cuenta
+los filtros **/
+function buscar(){
+  $.ajax({
+        type: 'POST',
+        dataType: "json",
+        url: 'backend/buscar.php',
+        data: ({Tipo: $( "#selectTipo option:selected" ).text(), 
+                Ciudad: $( "#selectCiudad option:selected" ).text(),
+                }),
+        success:function(data) {
+
+          var inmuebles = '<div class="tituloContenido card" style="justify-content: center;">          <h5 id="resultadosTotales">Resultados de la búsqueda:'+data.length+'</h5></div>';
+
+            for (var i=0; i<data.length;i++){
+              
+              inmuebles += '<div class="tituloContenido card" style=  "justify-content: center;"><div class="itemMostrado card" ><img  class="itemMostrado" src="img/home.jpg"><div class="card-stacked"><p><b>Direccion:</b>'+data[i].Direccion+'<br></p><p><b>Ciudad:</b>'+data[i].Ciudad+'<br></p><p><b>Telefono:</b>'+data[i].Telefono+'<br></p><p><b>Codigo postal:</b>'+data[i].Codigo_Postal+'<br></p><p><b>Tipo:</b>'+data[i].Tipo+'<br></p><p><b>Precio:</b>'+data[i].Precio+'<br></p></div></div><div class="botonField"><input type="submit" class="btn white limpiar" value="Añadir" id="submitButton"  onclick="anadir('+data[i].Id+')"></div></div>';
+            
+            }
+
+            $("#tabs-1").html(inmuebles);
+
+        },
+        error:function(data){
+          alert($( "#selectTipo option:selected" ).text());
+          alert("error occured"); //===Show Error Message====
+        }
+    });
+}
+
+/**Se encarga de llamar a la funcion buscar_bienes_user.php la cual busca los bienes del usuario, 
+con la informacion devuelta se encarga de crear cada uno de los elementos hallados teniendo en cuenta
+los filtros **/
+
+  function buscar_bienes_user(){
+  $.ajax({
+        type: 'POST',
+        dataType: "json",
+        url: 'backend/buscar_bienes_user.php',
+        data: ({Tipo: $( "#selectTipo option:selected" ).text(), 
+                Ciudad: $( "#selectCiudad option:selected" ).text(),
+                }),
+        success:function(data) {
+
+          var inmuebles = '<div class="tituloContenido card" style="justify-content: center;">          <h5 id="resultadosTotales">Resultados de la búsqueda:'+data.length+'</h5></div>';
+
+            for (var i=0; i<data.length;i++){
+              
+              inmuebles += '<div class="tituloContenido card" style=  "justify-content: center;"><div class="itemMostrado card" ><img  class="itemMostrado" src="img/home.jpg"><div class="card-stacked"><p><b>Direccion:</b>'+data[i].Direccion+'<br></p><p><b>Ciudad:</b>'+data[i].Ciudad+'<br></p><p><b>Telefono:</b>'+data[i].Telefono+'<br></p><p><b>Codigo postal:</b>'+data[i].Codigo_Postal+'<br></p><p><b>Tipo:</b>'+data[i].Tipo+'<br></p><p><b>Precio:</b>'+data[i].Precio+'<br></p></div></div><div class="botonField"><input type="submit" class="btn white limpiar" value="Eliminar" id="submitButton"  onclick="anadir('+data[i].Id+')"></div></div>';
+            
+            }
+
+            $("#tabs-2").html(inmuebles);
+
+        },
+        error:function(data){
+          alert($( "#selectTipo option:selected" ).text());
+          alert("error occured"); //===Show Error Message====
+        }
+    });
+}
+
+/**esta funcion en la pestaña exportar se encarga de crear un archivo xlsx con los resultados 
+de las consulta realizada con los filtros seleccionados**/
+function exportar(){
+  $.ajax({
+        type: 'POST',
+        dataType: "json",
+        url: 'backend/buscar.php',
+        data: ({Tipo: $( "#selectTipo2 option:selected" ).text(), 
+                Ciudad: $( "#selectCiudad2 option:selected" ).text(),
+                }),
+        success:function(data) {             
+
+          if(typeof XLSX == 'undefined') XLSX = require('xlsx');
+
+          var ws = XLSX.utils.json_to_sheet(data);
+           
+          var wb = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(wb, ws, "Bienes");
+           
+          XLSX.writeFile(wb, "consulta.xlsx");
+
+        },
+        error:function(data){
+          alert($( "#selectTipo option:selected" ).text());
+          alert("error occured"); //===Show Error Message====
+        }
+    });
+}
+
+    
+      
+    </script>
   </body>
   </html>
