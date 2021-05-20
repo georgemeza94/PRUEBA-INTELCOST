@@ -11,6 +11,10 @@ Respecto a los requerimientos específicos:
 4.	Al seleccionar añadir, el inmuble seleccionado pasa al listado de Mis bienes y deja de estar en el listado de bienes disponibles.
 5.	Permite eliminar los bienes guardados por el usuario. Los cuales volverán a estar en el listado de bienes disponibles.
 6.	La pestaña de exportar permite exportar teniendo en cuenta los respectivos filtros a archivos tipo Excel.
+------------------------------
+# Software 
+1. Versión del servidor: 5.7.24 MySql
+2. Versión de PHP: 7.4.13
 
 -----------------------------
 Para poder usar la aplicacion
