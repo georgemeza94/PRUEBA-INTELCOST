@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="css/customColors.css"  media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="css/ion.rangeSlider.css"  media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css"  media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="css/index.css"  media="screen,projection"/>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.1/xlsx.full.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
+  <title>Formulario</title>
+</head>
+
+<body onload="limpiar();ciudades();tipos()">
+  <!-- <video src="img/video.mp4" id="vidFondo"></video> -->
+
+  <div class="contenedor">
+    <div class="card rowTitulo">
+      <h1>Bienes Intelcost</h1>
+    </div>
+    <div class="colFiltros">
+      <form action="#" method="post" id="formulario">
+        <div class="filtrosContenido">
+          <div class="tituloFiltros">
+            <h5>Filtros</h5>
+          </div>
+          <div class="filtroCiudad input-field">
+            <p><label for="selectCiudad">Ciudad:</label><br></p>
+            <select name="ciudad" id="selectCiudad">
+              <option value="" selected>Elige una ciudad</option>
+            </select>
+          </div>
+          <div class="filtroTipo input-field">
+            <p><label for="selecTipo">Tipo:</label></p>
+            <br>
+            <select name="tipo" id="selectTipo">
+              <option value="">Elige un tipo</option>
+            </select>
+          </div>
+          <div class="filtroPrecio">
+            <label for="rangoPrecio">Precio:</label>
+            <input type="text" id="rangoPrecio" name="precio" value="" />
+          </div>
+          <div class="botonField">
+            <input type="button" class="btn white" value="Buscar" id="submitButton" onclick="buscar();buscar_bienes_user()">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div id="tabs" style="width: 75%;">
+      <ul>
+        <li><a id="disponibles" href="#tabs-1">Bienes disponibles</a></li>
+        <li><a id="bienes_user" href="#tabs-2">Mis bienes</a></li>
+        <li><a id="exportar" href="#tabs-3">Exportar</a></li>
+      </ul>
+      <div id="tabs-1" class="colContenido">
+        
+      </div>
+      
+      <div id="tabs-2" >
+
+      </div>
+
+      <div id="tabs-3" >
+
+        <div class="tituloContenido card" style=  "justify-content: center;"><div class="itemMostrado card" >
+          <h5 id="exportarTitulo">Exportar Reporte</h5>
+          <form action="#" method="post" id="formulario">
+            <div class="filtrosContenido">
+              <div class="tituloFiltros">
+                <h5>Filtros</h5>
+              </div>
+              <div class="filtroCiudad input-field">
+                <p><label for="selectCiudad">Ciudad:</label><br></p>
+                <select name="ciudad" id="selectCiudad2">
+                  <option value="" selected>Elige una ciudad</option>
+                </select>
+              </div>
+              <div class="filtroTipo input-field">
+                <p><label for="selecTipo">Tipo:</label></p>
+                <br>
+                <select name="tipo" id="selectTipo2">
+                  <option value="">Elige un tipo</option>
+                </select>
+              </div>
+              
+              <div class="botonField">
+                <input type="button" class="btn white" value="Buscar" id="submitButton" onclick="exportar();">
+              </div>
+            </div>
+          </form>
+        </div>
+
+
+      </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    
+   <!--  <script type="text/javascript" src="js/ion.rangeSlider.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/buscador.js"></script> -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="js/js_proyecto.js"></script>
+
+
+  </body>
+  </html>
